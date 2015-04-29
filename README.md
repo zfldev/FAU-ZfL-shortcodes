@@ -1,5 +1,5 @@
 # FAU ZfL Shortcodes
-Erstellt einen Wordpress-Shortcode [univis] welcher Links zu UnivIs-Einträgen der FAU immer auf dem aktuellen Stand hält.
+Spezielle Shortcodes für den Kontext Lehramt an der FAU. Die Shortcodes erhöhen die Leserbarkeit der Texte vorallem durch das abbr-Element.
 
 ## Welche Shortcodes gibt es?
 
