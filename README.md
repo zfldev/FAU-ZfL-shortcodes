@@ -1,6 +1,4 @@
 # FAU ZfL Shortcodes
-Wordpress Shortcode for up-to-date Links to UnivIS entrys
-
 Erstellt einen Wordpress-Shortcode [univis] welcher Links zu UnivIs-Einträgen der FAU immer auf dem aktuellen Stand hält.
 
 ## Welche Shortcodes gibt es?
