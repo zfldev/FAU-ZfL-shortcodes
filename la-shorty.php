@@ -2,10 +2,10 @@
 /*
 Plugin Name: FAU ZfL Shortcodes
 Plugin URI: https://www.zfl.fau.de/
-Description: Spezielle Shortcodes für den Kontext Lehramt an der FAU. Die Shortcodes erhöhen die Leserbarkeit der Texte vorallem durch das abbr-Element.
-Author: Johannes B. Hartmann
+Description: Spezielle Shortcodes für den Kontext Lehramt an der FAU. Die Shortcodes erhöhen die Leserbarkeit der Texte vor allem durch das abbr-Element.
+Author: Zentrum für Lehrerinnen- und Lehrerbildung der FAU
 Author URI: https://www.zfl.fau.de/
-Version: 1.1
+Version: 1.2.1
 Min WP Version: 4.0
 */
 
@@ -13,6 +13,8 @@ Min WP Version: 4.0
 add_filter( 'the_title', 'do_shortcode' );
 
 
+
+// Shortcodes fuer ZFL
 function abbr_mein_campus($content = null) {
 	extract( shortcode_atts( array(
 	), $atts ) );
@@ -87,6 +89,16 @@ add_shortcode('lernfoerderungplus', 'leplus');
 
 
 //Shortcodes fuer haufige Abkuerzungen
+function abbr_fibs($content = null) {
+	extract( shortcode_atts( array(
+	), $atts ) );
+
+	$out .= '<abbr title="Fortbildung in bayerischen Schulen" rel="tooltip">FIBS</abbr>';
+   return $out;
+}
+
+add_shortcode('FIBS', 'abbr_fibs');
+
 function abbr_grundschule($content = null) {
 	extract( shortcode_atts( array(
 	), $atts ) );
@@ -160,14 +172,14 @@ function abbr_lpo1($content = null) {
 	extract( shortcode_atts( array(
 	), $atts ) );
 
-	$out .= '<abbr title="Lehramtsprüfungsordnung I - LPO I: Ordnung der Ersten Prüfung für ein Lehramt an öffentlichen Schulen" rel="tooltip">LPO I</abbr> <a href="http://www.gesetze-bayern.de/jportal/portal/page/bsbayprod.psml?showdoccase=1&doc.id=jlr-LehrPrOBY2008rahmen&doc.part=X&doc.origin=bs" target="_blank" title="Lehramtsprüfungsordnung I auf externer Seite Anzeigen"><i class="fa fa-external-link-square"></i></a>';
+	$out .= '<abbr title="Lehramtsprüfungsordnung I - LPO I: Ordnung der Ersten Prüfung für ein Lehramt an öffentlichen Schulen" rel="tooltip">LPO I</abbr> <a href="http://gesetze-bayern.de/Content/Document/BayLPO_I?AspxAutoDetectCookieSupport=1" target="_blank" title="Lehramtsprüfungsordnung I auf externer Seite Anzeigen"><i class="fa fa-external-link-square"></i></a>';
    return $out;
 }
 
 add_shortcode('lpo1', 'abbr_lpo1');
 add_shortcode('lpoI', 'abbr_lpo1');
 add_shortcode('LPOI', 'abbr_lpo1');
-add_shortcode('LPO I', 'abbr_lpo1');
+add_shortcode('LPO-I', 'abbr_lpo1');
 
 function abbr_lpo2($content = null) {
 	extract( shortcode_atts( array(
@@ -186,7 +198,7 @@ function abbr_lapo($content = null) {
 	$out .= '<abbr title="Studien- und Prüfungsordnung für die Modulprüfungen im
 Rahmen der Ersten Lehramtsprüfung sowie den
 lehramtsbezogenen Masterstudiengang Gymnasium
-an der Universität Erlangen-Nürnberg" rel="tooltip">LAPO</abbr> <a href="http://www.zuv.fau.de/universitaet/organisation/recht/studiensatzungen/Lehramt/word/LAPO_Lehramt.MAI2014.pdf" target="_blank" title="LAPO in der Fassung vom 13. Mai 2014 als PDF Anzeigen"><i class="fa fa-external-link-square"></i></a>';
+an der Universität Erlangen-Nürnberg" rel="tooltip">LAPO</abbr>';
    return $out;
 }
 
@@ -296,7 +308,7 @@ function abbr_ukw($content = null) {
    return $out;
 }
 
-add_shortcode('ungerade KW', 'abbr_ukw');
+add_shortcode('ungerade-KW', 'abbr_ukw');
 
 function abbr_gkw($content = null) {
 	extract( shortcode_atts( array(
@@ -309,7 +321,7 @@ function abbr_gkw($content = null) {
    return $out;
 }
 
-add_shortcode('gerade KW', 'abbr_gkw');
+add_shortcode('gerade-KW', 'abbr_gkw');
 
 function zfl_hinweis($atts, $content = null) {
 	extract(shortcode_atts(array(
@@ -454,6 +466,19 @@ function abbr_fauschuleinnovativ($content = null) {
 add_shortcode('FAU-Schule-innovativ', 'abbr_fauschuleinnovativ');
 
 
+function abbr_bc($content = null) {
+	extract( shortcode_atts( array(
+	), $atts ) );
+
+	$out .= 'Bildungschancen';
+   return $out;
+}
+
+add_shortcode('BC', 'abbr_bc');
+
+// Shortcodes Ende
+
+
 function style_tabby_always_accordion($content = null) {
 	extract( shortcode_atts( array(
 	), $atts ) );
@@ -509,4 +534,183 @@ function my_plugin_options() {
 	
 	
 }
+
+/** accordion */
+
+function clear_string($str, $how = '-') {
+$search = array("ä", "ö", "ü", "ß", "Ä", "Ö",
+                "Ü", "&", "é", "á", "ó",
+                " :)", " :D", " :-)", " :P",
+                " :O", " ;D", " ;)", " ^^",
+                " :|", " :-/", ":)", ":D",
+                ":-)", ":P", ":O", ";D", ";)",
+                "^^", ":|", ":-/", "(", ")", "[", "]",
+                "<", ">", "!", "\"", "§", "$", "%", "&",
+                "/", "(", ")", "=", "?", "`", "´", "*", "'",
+                "_", ":", ";", "²", "³", "{", "}",
+                "\\", "~", "#", "+", ".", ",",
+                "=", ":", "=)");
+$replace = array("ae", "oe", "ue", "ss", "Ae", "Oe",
+                 "Ue", "und", "e", "a", "o", "-", "-",
+                 "-", "-", "-", "-", "-", "-", "-", "-", "-",
+                 "-", "-", "-", "-", "-", "-", "-", "-", "-",
+                 "-", "-", "-", "-", "-", "-", "-", "-", "-",
+                 "-", "-", "-", "-", "-", "-", "-", "-", "-",
+                 "-", "-", "-", "-", "-", "-", "-", "-", "-",
+                 "-", "-", "-", "-", "-", "-", "-", "-", "-", "-");
+$str = str_replace($search, $replace, $str);
+$str = strtolower(preg_replace("/[^a-zA-Z0-9]+/", trim($how), $str));
+return $str;
+}
+
+function genRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+function accordion_shortcode( $atts, $content = null ) {
+
+// initialise $firsttab flag so we can tell whether we are building the first tab
+
+global $reset_firstaccordion_flag;
+static $firstaccordion = TRUE;
+
+if ($GLOBALS["reset_firstaccordion_flag"] === TRUE) {
+	$firstaccordion = TRUE;
+	$GLOBALS["reset_firstaccordion_flag"] = FALSE;
+}
+
+// extract title & whether open
+	extract(shortcode_atts(array(
+		'title' => '',
+		'icon' => '',
+		'class' => '',
+		'element' => 'h3',
+		'color' => '',
+		'lp' => '',
+		'righttext' => '',
+		'righticon' => '',
+		'tableid' => '',
+		'tablerow' => '',
+		'tablecolumn' => ''
+	), $atts) );
+
+
+
+	if ( $tableid ) {
+	$title = $title . do_shortcode( '[table-cell id=' . $tableid . ' row=' . $tablerow . ' column=' . $tablecolumn. ' /]');
+	}
+
+	$tabtarget = sanitize_title_with_dashes( $title );
+
+	//initialise urltarget
+	$urltarget = '';
+
+	//grab the value of the 'target' url parameter if there is one
+	if ( isset ( $_REQUEST['target'] ) ) {
+		$urltarget = sanitize_title_with_dashes( $_REQUEST['target'] );
+	}
+
+	//	Set Tab Panel Class - add active class if the open attribute is set or the target url parameter matches the dashed version of the tab title
+	$tabcontentclass = "tabcontent";
+
+	if ( ( $open ) || ( isset( $urltarget ) && ( $urltarget == $tabtarget ) ) ) {
+		$tabcontentclass .= " responsive-tabs__panel--active";
+	}
+
+	$addicon = '';
+	$addrighticon = '';
+
+
+	if ( $icon ) {
+		$addicon = '<span class="fa fa-' . $icon . '"></span>';
+	}
+
+	if ( $righticon ) {
+		$addrighticon = '<span class="fa fa-' . $righticon . '"></span> ';
+	}
+	
+	$lpprint = '';
+
+	// wenn daten aus Tabelle stelle direkt workshopphase dar
+
+	if ( $tableid ) {
+		$lpprint = $addrighticon . '<span class="righttext">' . do_shortcode( '[table-cell id=' . $tableid . ' row=' . $tablerow . ' column=9 /]') . '</span>';
+	}	
+
+	if ( $lp ) {
+		$lpprint = '<span class="leistungspunkte' . $icon . '">' . $lp . ' <abbr title="Leistungspunkte nach dem ECTS (European Credit Transfer System)">LP</abbr></span>';
+	}
+
+	if ( $righttext ) {
+		$lpprint = $addrighticon . '<span class="righttext">' . $righttext . '</span>';
+	}
+	
+	$colorclass = '';
+	
+	if ( $color ) {
+		$question_color = 'faq-question-'.$color.'"';
+		$answer_color = 'faq-answer-'.$color.'"';
+		$colorclose = '-'.$color;
+	}
+
+// test whether this is the first tab in the group
+	if ( $firstaccordion ) {
+
+		// Set flag so we know subsequent tabs are not the first in the tab group
+		$firstaccordion = FALSE;
+
+		// Build output if we are making the first tab
+		$url_title = clear_string($title, $how = '-');
+		$close = genRandomString(4);
+		return '<div id="faq-block"><div class="faq-list" data-speed="200"><div class="single-faq expand-faq"><'.$element.' id="'.$url_title.'" class="faq-question expand-title ' . $question_color .'" >'.$addicon.' '.$title.' '.$lpprint.' </'.$element.'><div class="faq-answer ' . $answer_color . '" rel="'.$url_title.'" >';
+	}
+
+    else {
+		// Build output if we are making a non-first tab
+		$url_title = clear_string($title, $how = '-');
+		$close = genRandomString(4);
+		return  '</div></div><div class="single-faq expand-faq"><'.$element.' id="'.$url_title.'" class="faq-question expand-title ' . $question_color .'" >'.$addicon.' '.$title.' '.$lpprint.'</'.$element.'><div class="faq-answer ' . $answer_color . '" rel="'.$url_title.'">';
+	}
+}
+add_filter( 'the_content', 'shortcode_unautop' );
+add_shortcode('accordion', 'accordion_shortcode');
+
+
+function accordion_ending_shortcode($atts, $content = null) {
+	$GLOBALS["reset_firstaccordion_flag"]=TRUE;
+   	return '</div></div></div></div>';
+}
+add_filter( 'the_content', 'shortcode_unautop' );
+add_shortcode( 'accordion_ending', 'accordion_ending_shortcode' );
+
+
+function touchbox_shortcode($atts) {
+	extract(shortcode_atts(array(
+        	'title'     => 'titel',
+		'subtitle'     => '',
+		'content'	=> 'content',
+		'link' 		=> '#',
+		'linktitle' 	=> '',
+		'titleicon' 	=> 'play',
+		'subtitleicon' 	=> '',
+		'linkicon' 	=> 'external-link-square'
+
+    ), $atts));
+	
+	if ( $link == '#'){
+		$out = '<span title="'. $content .'" rel="tooltip" class="touchbox title"><i class="fa fa-' . $titleicon . '"></i> ' . $title .'</span><br><span class="touchbox subtitle">' . $subtitle . '</span>';
+	} else {
+		$out = '<span title="'. $content .'" rel="tooltip" class="touchbox title"><i class="fa fa-' . $titleicon . '"></i> ' . $title . '</span><br>
+		<i class="fa fa-' . $subtitleicon . '"></i> <span class="touchbox subtitle">' . $subtitle . '</span> <a href="'.$link.'" title="Details auf externer Seite Anzeigen"><i class="fa fa-' . $linkicon . '"></i> Link</a>';	
+	}
+   return $out;
+}
+
+add_shortcode('touchbox', 'touchbox_shortcode');
 
